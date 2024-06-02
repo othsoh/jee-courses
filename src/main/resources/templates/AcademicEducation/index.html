@@ -1,0 +1,68 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="template">
+<head>
+    <title>All Courses</title>
+    <meta name="viewport" content="width=device-width height=device-height initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <link rel="icon" href="/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" type="text/css"
+          href="//fonts.googleapis.com/css?family=Work+Sans:300,400,500,700%7CZilla+Slab:300,400,500,700,700i%7CGloria+Hallelujah">
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/fonts.css">
+    <link rel="stylesheet" href="/assets/css/style.css">
+</head>
+<body>
+<div layout:fragment="content">
+    <section class="section section-lg bg-default text-center">
+        <div class="container">
+            <h2 class="wow fadeIn">Our Featured Courses</h2>
+        </div>
+
+        <form method="get" th:action="@{/AcademicEducation}">
+            <input type="text" th:value="${search}" placeholder="Search by Program name" name="search">
+            <button type="submit">Search</button>
+        </form>
+        <a class="button button-lg button-primary-gradient wow fadeIn" th:href="@{AcademicEducation/add}"
+           data-wow-delay=".2s"><span>Add Course</span></a>
+
+        <div class="row row-30 row-md-50 row-xl-70" >
+            <div class="col-sm-6 col-lg-4 wow fadeIn" th:each="edu:${listAcademicEducation}">
+                <!-- Post Minimal-->
+                <div class="post-minimal">
+                    <figure class="post-minimal-media"><a href="#"><img class="post-minimal-image"
+                                                                        src="/assets/images/financial_analyst_course.jpg"
+                                                                        alt="" width="370" height="260"/></a></figure>
+                    <div class="post-minimal-meta">
+                        <ul class="list-inline">
+                            <li class="list-inline-item">Teacher:</li>
+                            <li class="list-inline-item"><a th:text="${edu.teacher.firstName + ' ' + edu.teacher.lastName}"></a></li>
+                        </ul>
+                    </div>
+                    <div class="flex-row m-0 p-0">Start date: <span class="mb-0 text-primary fw-bold " th:text="${edu.startDate}"></span></div>
+                    <div class="flex-row m-0 p-0">End date: <span class="mb-0 text-primary fw-bold " th:text="${edu.endDate}"></span></div>
+                    <h4 class="post-minimal-title"><a href="#" th:text="${edu.programName}"></a></h4>
+                    <div class="w-100  gap-5">
+                        <a class="btn btn-outline-primary w-100 " th:href="@{/AcademicEducation/edit/{id}(page=${CurrentPage}, size=${size}, search=${search}, id=${edu.educationID})}">Edit</a>
+                        <a class="btn btn-danger w-100 mt-2" th:href="@{/AcademicEducation/delete/{id}(page=${CurrentPage}, size=${size}, search=${search}, id=${edu.educationID})}">Delete</a>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+    <nav aria-label=>
+        <ul class="pagination pagination-lg justify-content-center">
+            <li th:class="${page == CurrentPage ? 'page-item disabled' : 'page-item'}" th:each="page: ${listPages}">
+                <a th:text="${page + 1}" class="page-link"
+                   th:href="@{/AcademicEducation(page=${page}, size=${size}, search=${search})}"></a>
+            </li>
+        </ul>
+    </nav>
+</div>
+<script src="/assets/js/core.min.js"></script>
+<script src="/assets/js/script.js"></script>
+</body>
+</html>
